@@ -1,0 +1,15 @@
+{
+  "include": ["src/**/*.ts"],
+  "exludes": ["node_modules"],
+  "compilerOptions": {
+    "target": "es5",
+    "module": "CommonJS",
+    "lib": ["ES5", "ES6"],
+    "sourceMap": true,
+    "outDir": "./build",
+    "strict": true,
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "experimentalDecorators": true
+  }
+}
