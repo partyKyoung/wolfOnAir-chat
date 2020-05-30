@@ -20,7 +20,8 @@ function connect() {
   }
 
   mongoose.connect(MONGO_URL, {
-    dbName: 'chat'
+    dbName: 'chat', 
+    useNewUrlParser: true
   }, (err) => {
     console.log(MONGO_URL);
     if (err) {
