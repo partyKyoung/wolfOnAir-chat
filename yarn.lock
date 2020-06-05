@@ -23,6 +23,17 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
+"@koa/router@^9.0.1":
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/@koa/router/-/router-9.0.1.tgz#4090a14223ea7e78aa13b632761209cba69acd95"
+  integrity sha512-OI+OU49CJV4px0WkIMmayBeqVXB/JS1ZMq7UoGlTZt6Y7ijK7kdeQ18+SEHHJPytmtI1y6Hf8XLrpxva3mhv5Q==
+  dependencies:
+    debug "^4.1.1"
+    http-errors "^1.7.3"
+    koa-compose "^4.1.0"
+    methods "^1.1.2"
+    path-to-regexp "^6.1.0"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -149,6 +160,13 @@
     "@types/keygrip" "*"
     "@types/koa-compose" "*"
     "@types/node" "*"
+
+"@types/koa__router@^8.0.2":
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/@types/koa__router/-/koa__router-8.0.2.tgz#32381a4b2487226e09be1c960da066a4e373af35"
+  integrity sha512-3ZWfVAEcErHrZA31fWUC2YyZyAgoG4eKtQPy2XwBzdSpQealxjL7GcEEtGY925qPPs1wurW59qDl0KuRB39rrw==
+  dependencies:
+    "@types/koa" "*"
 
 "@types/mime@*":
   version "2.0.2"
@@ -1162,7 +1180,7 @@ http-cache-semantics@^4.0.0:
   resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.0.tgz#49e91c5cbf36c9b94bcfcd71c23d5249ec74e390"
   integrity sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==
 
-http-errors@^1.6.3, http-errors@~1.7.2:
+http-errors@^1.6.3, http-errors@^1.7.3, http-errors@~1.7.2:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.7.3.tgz#6c619e4f9c60308c38519498c14fbb10aacebb06"
   integrity sha512-ZTTX0MWrsQ2ZAhA1cejAwDLycFsd7I7nVtnkT3Ol0aqodaKW+0CTZDQ1uBv5whptCnc8e8HeRRJxRs0kmm/Qfw==
@@ -1492,6 +1510,11 @@ memory-pager@^1.0.2:
   resolved "https://registry.yarnpkg.com/memory-pager/-/memory-pager-1.5.0.tgz#d8751655d22d384682741c972f2c3d6dfa3e66b5"
   integrity sha512-ZS4Bp4r/Zoeq6+NLJpP+0Zzm0pR8whtGPf1XExKLJBAczGMnSi3It14OiNCStjQjM6NU1okjQGSxgEZN8eBYKg==
 
+methods@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
+  integrity sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=
+
 mime-db@1.44.0:
   version "1.44.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.44.0.tgz#fa11c5eb0aca1334b4233cb4d52f10c5a6272f92"
@@ -1753,6 +1776,11 @@ path-key@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/path-key/-/path-key-3.1.1.tgz#581f6ade658cbba65a0d3380de7753295054f375"
   integrity sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==
+
+path-to-regexp@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.1.0.tgz#0b18f88b7a0ce0bfae6a25990c909ab86f512427"
+  integrity sha512-h9DqehX3zZZDCEm+xbfU0ZmwCGFCAAraPJWMXJ4+v32NjZJilVg3k1TcKsRgIb8IQ/izZSaydDc1OhJCZvs2Dw==
 
 picomatch@^2.0.4, picomatch@^2.2.1:
   version "2.2.2"
