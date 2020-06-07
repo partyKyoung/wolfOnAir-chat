@@ -11,7 +11,18 @@ const router = new Router();
 connect();
 
 router.use('/api', api.routes());
-app.use(router.routes().arguments(router.allowedMethods()));
+
+// cors
+app.use((ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', 'http://localhost:3000');
+  ctx.set('Access-Control-Allow-Methods', 'POST, PUT, GET, DELETE');
+  ctx.set('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
+  ctx.set("Access-Control-Allow-Credentials", 'true');
+
+  return next();
+});
+
+app.use(router.routes()).use(router.allowedMethods());
 
 const server = app.listen(4000, () => {
   console.log('Listening to port 4000');
