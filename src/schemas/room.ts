@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
-const { Schema } = mongoose;
+interface Room extends mongoose.Document {
+  title: string;
+}
+
+const { model, Schema } = mongoose;
 const roomSchema = new Schema({
   title: {
     type: String,
@@ -16,4 +20,4 @@ const roomSchema = new Schema({
   },
 });
 
-export default roomSchema;
+export default model<Room>('Room', roomSchema);

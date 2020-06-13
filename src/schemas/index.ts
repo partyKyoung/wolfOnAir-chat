@@ -47,8 +47,8 @@ function connectMongo() {
     connect();
   });
 
-  mongoose.model('Chat', chat);
-  mongoose.model('Room', room);
+  room;
+  chat;
 }
 
 export default connectMongo;

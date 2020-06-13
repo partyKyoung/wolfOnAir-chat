@@ -1,7 +1,14 @@
 import mongoose from 'mongoose';
 
-const { Schema } = mongoose;
+const { model, Schema } = mongoose;
 const { Types: { ObjectId }} = Schema;
+
+interface Chat extends mongoose.Document {
+  room: any;
+  user: string;
+  chat: string;
+  createdAt: any;
+}
 
 const chatSchema = new Schema({
   room: {
@@ -20,4 +27,4 @@ const chatSchema = new Schema({
   }
 });
 
-export default chatSchema;
+export default model<Chat>('Chat', chatSchema);
