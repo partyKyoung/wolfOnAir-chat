@@ -3,7 +3,7 @@ import { Context } from 'koa';
 
 import secret from '../config/jwtConfig';
 
-export const decodeToken = (token: string) => {
+export function decodeToken(token: string) {
   return new Promise((resolve, reject) => {
     if (!token) {
       reject();
@@ -19,7 +19,7 @@ export const decodeToken = (token: string) => {
   });
 };
 
-export const getAccessTokenCookie = (ctx: Context): string => {
+export function getAccessTokenCookie(ctx: Context) {
   const token = ctx.cookies.get('access_token');
 
   if (!token) {

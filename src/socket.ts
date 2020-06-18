@@ -2,6 +2,10 @@ import http from 'http';
 import Koa, { Context } from 'koa';
 import SocketIO from 'socket.io';
 
+import { decodeToken, getAccessTokenCookie } from './lib/token';
+
+import Room from './schemas/room';
+
 async function socket(server: http.Server, app: Koa) {
   const io: SocketIO.Server = SocketIO(server, { path: '/socket.io'});
   let lobbyId = '';
@@ -30,15 +34,8 @@ async function socket(server: http.Server, app: Koa) {
 
   // chat 네임스페이스에 이벤트 리스너 붙여줌
   chat.on('connection', (socket) => {
-    // let id = lobbyId;
     console.log('chat 네임스페이스에 접속');
-  
-    socket.join('joinLobby');
-    socket.to('joinLobby').emit('join', {
-      user: 'gdgd',
-      chat: 'gdgd'
-    });
-
+    
     socket.on('disconnect', () => {
       console.log('chat 네임스페이스 접속 해제');
     });

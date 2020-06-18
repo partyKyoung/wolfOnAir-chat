@@ -3,6 +3,8 @@ import { model } from 'mongoose';
 import { decodeToken, getAccessTokenCookie } from '../../lib/token';
 import Room from '../../schemas/room';
 import Chat from '../../schemas/chat';
+import socket from 'src/socket';
+import { decode } from 'punycode';
 
 export async function getLobby(ctx: any) {
   const { uid } = ctx.params;
@@ -24,32 +26,9 @@ export async function getLobby(ctx: any) {
       return;
     }
 
-    // const rooms = await Room.find({ title: 'lobby' });
-
-    // if (rooms.length <= 0) {
-    //   const lobby = new Room({
-    //     title: 'lobby',
-    //     maxCount: 100,
-    //     owner: 'admin',
-    //   });
-
-    //   const newLobby = await lobby.save();
-      // const io = ctx.get('io');
-
-      // io.of('/chat').emit('newLooby', newLobby);
-    // } else {
-    //   const lobby = rooms[0];
-    //   const chats = await Chat.find({ room: lobby._id});
-
-
-    //   ctx.body = {
-    //     chats
-    //   }
-    // }
-
     ctx.status = 200;
   } catch (err) {
-    console.log(err);
+
     ctx.status = 500;
   }
 
