@@ -36,6 +36,10 @@ async function socket(server: http.Server, app: Koa) {
   chat.on('connection', (socket) => {
     console.log('chat 네임스페이스에 접속');
     
+    socket.on('joinLobby', () => {
+      console.log('test');
+    })
+
     socket.on('disconnect', () => {
       console.log('chat 네임스페이스 접속 해제');
     });

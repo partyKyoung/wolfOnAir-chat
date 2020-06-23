@@ -26,7 +26,12 @@ export async function getLobby(ctx: any) {
       return;
     }
 
+    const rooms = await Room.find({});
+
     ctx.status = 200;
+    ctx.body = {
+      rooms
+    }
   } catch (err) {
 
     ctx.status = 500;
