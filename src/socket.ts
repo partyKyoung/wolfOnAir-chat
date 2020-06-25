@@ -6,6 +6,8 @@ import { decodeToken, getAccessTokenCookie } from './lib/token';
 
 import Room from './schemas/room';
 
+import { getLobby } from './lib/chat';
+
 async function socket(server: http.Server, app: Koa) {
   const io: SocketIO.Server = SocketIO(server, { path: '/socket.io'});
   let lobbyId = '';
@@ -36,8 +38,20 @@ async function socket(server: http.Server, app: Koa) {
   chat.on('connection', (socket) => {
     console.log('chat 네임스페이스에 접속');
     
-    socket.on('joinLobby', () => {
-      console.log('test');
+    socket.on('joinConnect', async ({userName}) => {
+      const req = socket.request;
+      const { headers: { referer }} = req;
+      let roomId = referer.split('/')[referer.split('/').length - 1].replace(/\?.+/, '');
+
+      if (roomId === 'lobby') {
+        roomId = await getLobby();
+      }
+
+      socket.join(roomId);
+      socket.emit('join', {
+        user: 'system',
+        message: `${userName}님이 입장하셨습니다.`
+      })
     })
 
     socket.on('disconnect', () => {

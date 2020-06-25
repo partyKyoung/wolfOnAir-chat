@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 
 interface Room extends mongoose.Document {
   title: string;
+  maxCount: number;
+  owner: string;
 }
 
 const { model, Schema } = mongoose;
