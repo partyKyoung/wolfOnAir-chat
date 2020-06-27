@@ -1,5 +1,6 @@
 import Koa, { Context } from 'koa';
 import Router from '@koa/router';
+import bodyParser from 'koa-bodyparser';
 
 import api from './api';
 import socket from './socket';
@@ -22,6 +23,7 @@ app.use((ctx, next) => {
   return next();
 });
 
+app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());
 
 const server = app.listen(4000, () => {

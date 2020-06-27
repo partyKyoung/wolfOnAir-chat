@@ -48,11 +48,17 @@ async function socket(server: http.Server, app: Koa) {
       }
 
       socket.join(roomId);
-      socket.emit('join', {
-        user: 'system',
+
+      // 자신 포함 전부
+      chat.in(roomId).emit('join', {
+        userName: 'system',
         message: `${userName}님이 입장하셨습니다.`
       })
     })
+
+    socket.on('chat', ({message, userName}) => {
+      console.log(message);
+    });
 
     socket.on('disconnect', () => {
       console.log('chat 네임스페이스 접속 해제');
