@@ -36,12 +36,13 @@ async function socket(server: http.Server, app: Koa) {
 
   // chat 네임스페이스에 이벤트 리스너 붙여줌
   chat.on('connection', (socket) => {
+    let roomId = '';
     console.log('chat 네임스페이스에 접속');
     
     socket.on('joinConnect', async ({userName}) => {
       const req = socket.request;
       const { headers: { referer }} = req;
-      let roomId = referer.split('/')[referer.split('/').length - 1].replace(/\?.+/, '');
+      roomId = referer.split('/')[referer.split('/').length - 1].replace(/\?.+/, '');
 
       if (roomId === 'lobby') {
         roomId = await getLobby();
@@ -50,14 +51,21 @@ async function socket(server: http.Server, app: Koa) {
       socket.join(roomId);
 
       // 자신 포함 전부
-      chat.in(roomId).emit('join', {
+      chat.to(roomId).emit('join', {
+        message: `${userName}님이 입장하셨습니다.`,
+        roomId,
         userName: 'system',
-        message: `${userName}님이 입장하셨습니다.`
       })
     })
 
     socket.on('chat', ({message, userName}) => {
-      console.log(message);
+      if (!roomId) {
+        return;
+      }
+
+      chat.to(roomId).emit('chat', {
+        
+      })
     });
 
     socket.on('disconnect', () => {
