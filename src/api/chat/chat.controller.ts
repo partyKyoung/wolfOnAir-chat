@@ -68,10 +68,10 @@ export async function sendMessage(ctx: any) {
 
     //   return;
     // }
-
-    console.log(ctx.io.of('/chat').to(roomId).emit('chat', {
+    
+    ctx.io.of('/chat').to(roomId).emit('chat', {
       message
-    }));
+    })
 
     ctx.status = SUCCESS;
   } catch (err) {

@@ -4,7 +4,7 @@ import SocketIO from 'socket.io';
 
 import { decodeToken, getAccessTokenCookie } from './lib/token';
 
-import Room from './schemas/room';
+import Chat from './schemas/chat';
 
 import { getLobby } from './lib/chat';
 
@@ -58,14 +58,28 @@ async function socket(server: http.Server, app: Koa) {
       })
     })
 
-    socket.on('chat', ({message, userName}) => {
+    socket.on('sendMessage', async ({message, userName, roomId}) => {
       if (!roomId) {
         return;
       }
 
-      chat.to(roomId).emit('chat', {
-        
-      })
+      try {
+        const chatLog = new Chat({
+          room: roomId,
+          user: userName,
+          chat: message
+        });
+
+        await chatLog.save();
+
+        chat.to(roomId).emit('getMessage', {
+          message,
+          userName
+        })  
+      } catch(err) {
+       // 
+      }
+
     });
 
     socket.on('disconnect', () => {
