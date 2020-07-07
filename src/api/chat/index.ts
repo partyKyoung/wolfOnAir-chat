@@ -1,10 +1,10 @@
 import Router from '@koa/router';
 
-import { getLobby, sendMessage } from './chat.controller';
+import { createRoom, getLobby, } from './chat.controller';
 
 const chat = new Router();
 
 chat.get('/lobby', getLobby);
-chat.post('/:roomId/message', sendMessage);
+chat.post('/room', createRoom);
 
 export default chat;

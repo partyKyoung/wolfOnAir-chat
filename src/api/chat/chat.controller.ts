@@ -6,6 +6,7 @@ import Room from '../../schemas/room';
 import Chat from '../../schemas/chat';
 import socket from 'src/socket';
 import { decode } from 'punycode';
+import { resolve } from 'path';
 
 type StatusCodeTypes = 401 | 200 | 500;
 
@@ -57,25 +58,35 @@ export async function getLobby(ctx: Context) {
   }
 }
 
-export async function sendMessage(ctx: any) {
+// 룸타입 1: 단어마피아
+export async function createRoom(ctx: Context) {
+  const { roomTitle, userName } = ctx.request.body;
+  const statusCode = await checkStatus(ctx);
+
+  if (statusCode !== SUCCESS) {
+    ctx.status = statusCode;
+
+    return;
+  }
+
   try {
-    const statusCode = await checkStatus(ctx);
-    const { roomId } = ctx.params;
-    const { message } = ctx.request.body;
-
-    // if (statusCode !== SUCCESS) {
-    //   ctx.status = statusCode;
-
-    //   return;
-    // }
-    
-    ctx.io.of('/chat').to(roomId).emit('chat', {
-      message
-    })
-
+    const room = new Room({
+      roomTitle: roomTitle,
+      owner: userName,
+      maxCount: 8,
+      roomType: 1
+    });
+  
+    const newRoom = await room.save();
+    const io = ctx.io;
+ 
+    io.of('/room').emit('newRoom', newRoom);
+  
     ctx.status = SUCCESS;
+
   } catch (err) {
-    console.log(ctx);
+    console.log(err);
     ctx.status = ERROR;
-  }  
+  }
+
 }

@@ -1,14 +1,19 @@
 import mongoose from 'mongoose';
 
 interface Room extends mongoose.Document {
-  title: string;
+  roomType: string;
+  roomTitle: string;
   maxCount: number;
   owner: string;
 }
 
 const { model, Schema } = mongoose;
 const roomSchema = new Schema({
-  title: {
+  roomType: {
+    type: String,
+    required: true
+  },
+  roomTitle: {
     type: String,
     required: true
   },
