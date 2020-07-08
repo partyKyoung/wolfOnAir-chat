@@ -83,9 +83,11 @@ export async function createRoom(ctx: Context) {
     io.of('/room').emit('newRoom', newRoom);
   
     ctx.status = SUCCESS;
+    ctx.body = {
+      roomId: newRoom._id
+    }
 
   } catch (err) {
-    console.log(err);
     ctx.status = ERROR;
   }
 
