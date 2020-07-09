@@ -8,11 +8,18 @@ import socket from 'src/socket';
 import { decode } from 'punycode';
 import { resolve } from 'path';
 
+
 type StatusCodeTypes = 401 | 200 | 500;
 
 const UNAUTHORIZED = 401;
 const SUCCESS = 200;
 const ERROR = 500;
+
+// 상태
+const WAIT = 0;
+
+// 방 타입
+const WORD_MAFIA = 1;
 
 async function checkStatus(ctx: Context): Promise<StatusCodeTypes> {
   const { uid } = ctx.params;
@@ -29,8 +36,6 @@ async function checkStatus(ctx: Context): Promise<StatusCodeTypes> {
     if (uid !== decoded.uid) {
       return UNAUTHORIZED;
     }
-
-    const rooms = await Room.find({});
 
     return SUCCESS;
   } catch (err) {
@@ -71,10 +76,12 @@ export async function createRoom(ctx: Context) {
 
   try {
     const room = new Room({
-      roomTitle: roomTitle,
-      owner: userName,
+      count: 1,
       maxCount: 8,
-      roomType: 1
+      owner: userName,
+      roomTitle: roomTitle,
+      roomType: WORD_MAFIA,
+      status: WAIT
     });
   
     const newRoom = await room.save();
