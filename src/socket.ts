@@ -42,10 +42,12 @@ async function socket(server: http.Server, app: Koa) {
     socket.on('joinConnect', async ({userName}) => {
       const req = socket.request;
       const { headers: { referer }} = req;
-      roomId = referer.split('/')[referer.split('/').length - 1].replace(/\?.+/, '');
+      const room = referer.split('/')[referer.split('/').length - 1].replace(/\?.+/, '');
 
-      if (roomId === 'lobby') {
+      if (room === 'lobby') {
         roomId = await getLobby();
+      } else {
+        roomId = room
       }
 
       socket.join(roomId);
@@ -84,6 +86,7 @@ async function socket(server: http.Server, app: Koa) {
 
     socket.on('disconnect', () => {
       console.log('chat 네임스페이스 접속 해제');
+      socket.leave(roomId);
     });
   });
 };
