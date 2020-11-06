@@ -1,25 +1,24 @@
 import { Context } from 'koa';
 import { model } from 'mongoose';
 
+import {
+  MAFIA,
+  FULL,
+  PLAYING,
+  TABULA,
+  WAIT,
+  WARE_WOLF
+} from '../../models/types';
+
 import { decodeToken, getAccessTokenCookie } from '../../lib/token';
 import Room from '../../schemas/room';
 import Chat from '../../schemas/chat';
-import socket from 'src/socket';
-import { decode } from 'punycode';
-import { resolve } from 'path';
-
 
 type StatusCodeTypes = 401 | 200 | 500;
 
 const UNAUTHORIZED = 401;
 const SUCCESS = 200;
 const ERROR = 500;
-
-// 상태
-const WAIT = 0;
-
-// 방 타입
-const WORD_MAFIA = 1;
 
 async function checkStatus(ctx: Context): Promise<StatusCodeTypes> {
   const { uid } = ctx.params;
@@ -63,9 +62,8 @@ export async function getLobby(ctx: Context) {
   }
 }
 
-// 룸타입 1: 단어마피아
 export async function createRoom(ctx: Context) {
-  const { roomTitle, userName } = ctx.request.body;
+  const { roomType, roomTitle, userName } = ctx.request.body;
   const statusCode = await checkStatus(ctx);
 
   if (statusCode !== SUCCESS) {
@@ -76,12 +74,12 @@ export async function createRoom(ctx: Context) {
 
   try {
     const room = new Room({
-      count: 1,
-      maxCount: 8,
+      count: 1, 
+      maxCount: 12,
       owner: userName,
       roomTitle: roomTitle,
-      roomType: WORD_MAFIA,
-      status: WAIT
+      roomType: roomType,
+      status: 'wait'
     });
   
     const newRoom = await room.save();

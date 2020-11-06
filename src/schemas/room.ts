@@ -1,12 +1,21 @@
 import mongoose from 'mongoose';
 
+import {
+  MAFIA,
+  FULL,
+  PLAYING,
+  TABULA,
+  WAIT,
+  WARE_WOLF
+} from '../models/types';
+
 interface Room extends mongoose.Document {
   count: number;
   maxCount: number;
   owner: string;
   roomTitle: string;
-  roomType: string;
-  status: 0 | 1;
+  roomType: MAFIA | TABULA | WARE_WOLF;
+  status: WAIT | FULL | PLAYING;
 }
 
 const { model, Schema } = mongoose;
