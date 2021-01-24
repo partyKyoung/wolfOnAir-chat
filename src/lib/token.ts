@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Context } from 'koa';
 
-import secret from '../config/jwtConfig';
+import secret from '../config/jwt';
 
 export function decodeToken(token: string) {
   return new Promise((resolve, reject) => {
