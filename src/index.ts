@@ -2,7 +2,7 @@ import Koa, { Context } from 'koa';
 import Router from '@koa/router';
 import bodyParser from 'koa-bodyparser';
 
-import api from './api';
+// import api from './api';
 import socket from './socket';
 import connect from './schemas';
 
@@ -11,7 +11,7 @@ const router = new Router();
 
 connect();
 
-router.use('/api', api.routes());
+// router.use('/api', api.routes());
 
 // cors
 app.use((ctx, next) => {

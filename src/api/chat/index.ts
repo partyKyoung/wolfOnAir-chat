@@ -1,6 +1,6 @@
 import Router from '@koa/router';
 
-import { createRoom, getLobby, } from './chat.ctrl';
+import { createRoom, getLobby } from './chat.ctrl';
 
 const chat = new Router();
 

@@ -11,8 +11,8 @@ import {
 } from '../../models/types';
 
 import { decodeToken, getAccessTokenCookie } from '../../lib/token';
-import Room from '../../schemas/room';
-import Chat from '../../schemas/chat';
+// import Room from '../../schemas/room';
+// import Chat from '../../schemas/chat';
 
 type StatusCodeTypes = 401 | 200 | 500;
 
@@ -43,57 +43,57 @@ async function checkStatus(ctx: Context): Promise<StatusCodeTypes> {
 }
 
 export async function getLobby(ctx: Context) {
-  try {
-    const statusCode = await checkStatus(ctx);
-    const rooms = await Room.find({});
+  // try {
+  //   const statusCode = await checkStatus(ctx);
+  //   const rooms = await Room.find({});
 
-    if (statusCode !== SUCCESS) {
-      ctx.status = statusCode;
+  //   if (statusCode !== SUCCESS) {
+  //     ctx.status = statusCode;
 
-      return;
-    }
+  //     return;
+  //   }
 
-    ctx.status = SUCCESS;
-    ctx.body = {
-      rooms
-    }
-  } catch (err) {
-    ctx.status = ERROR;
-  }
+  //   ctx.status = SUCCESS;
+  //   ctx.body = {
+  //     rooms
+  //   }
+  // } catch (err) {
+  //   ctx.status = ERROR;
+  // }
 }
 
 export async function createRoom(ctx: Context) {
-  const { roomType, roomTitle, userName } = ctx.request.body;
-  const statusCode = await checkStatus(ctx);
+  // const { roomType, roomTitle, userName } = ctx.request.body;
+  // const statusCode = await checkStatus(ctx);
 
-  if (statusCode !== SUCCESS) {
-    ctx.status = statusCode;
+  // if (statusCode !== SUCCESS) {
+  //   ctx.status = statusCode;
 
-    return;
-  }
+  //   return;
+  // }
 
-  try {
-    const room = new Room({
-      count: 1, 
-      maxCount: 12,
-      owner: userName,
-      roomTitle: roomTitle,
-      roomType: roomType,
-      status: 'wait'
-    });
+  // try {
+  //   const room = new Room({
+  //     count: 1, 
+  //     maxCount: 12,
+  //     owner: userName,
+  //     roomTitle: roomTitle,
+  //     roomType: roomType,
+  //     status: 'wait'
+  //   });
   
-    const newRoom = await room.save();
-    const io = ctx.io;
+  //   const newRoom = await room.save();
+  //   const io = ctx.io;
  
-    io.of('/room').emit('newRoom', newRoom);
+  //   io.of('/room').emit('newRoom', newRoom);
   
-    ctx.status = SUCCESS;
-    ctx.body = {
-      roomId: newRoom._id
-    }
+  //   ctx.status = SUCCESS;
+  //   ctx.body = {
+  //     roomId: newRoom._id
+  //   }
 
-  } catch (err) {
-    ctx.status = ERROR;
-  }
+  // } catch (err) {
+  //   ctx.status = ERROR;
+  // }
 
 }

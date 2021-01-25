@@ -1,94 +1,30 @@
-import http from 'http';
-import Koa, { Context } from 'koa';
-import SocketIO from 'socket.io';
+import { Server, Socket } from 'socket.io';
+import { Server as HttpServer } from 'http';
+import Koa from 'koa';
 
-import { decodeToken, getAccessTokenCookie } from './lib/token';
-
-import Chat from './schemas/chat';
-
-import { getLobby } from './lib/chat';
-
-async function socket(server: http.Server, app: Koa) {
-  const io: SocketIO.Server = SocketIO(server, { path: '/socket.io'});
-  let lobbyId = '';
-  //  라우터에서 io 객체를 쓸 수 있게 저장해둔다.
-  app.context.io = io;
-
-  /* 
-    Socket.io에 of 메소드를 사옹하여 네임스페이스를 부여한다.
-    지정된 네임스페이스에 연결된 클라이언트에만 데이터를 전달할 수 있다.
-  */
-
-  // 채팅방 생성 및 삭제에 관한 정보 전달 하는 네임스페이스
-  const room = io.of('/room');
-
-  // 채팅 메시지를 전달하는 네임스페이스
-  const chat = io.of('/chat');
-
-  // room 네임스페이스에 이벤트 리스너 붙여줌
-  room.on('connection', (socket) => {
-    console.log('room 네임스페이스에 접속');
-
-    socket.on('disconnect', () => {
-      console.log('chat 네임스페이스 연결 끊음');
-    })
+function socketIo(server: HttpServer, app: Koa) {
+  const io = new Server(server, {
+    cors: {
+      origin: "http://localhost:3000",
+      credentials: true
+    }
   });
 
-  // chat 네임스페이스에 이벤트 리스너 붙여줌
+  app.context.io = io;
+
+  const chat = io.of('/chat');
+  const room = io.of('/room');
+  const lobby = io.of('/lobby');
+
+  lobby.on('connection', () => {});
+
+  room.on('connection', () => {});
+
   chat.on('connection', (socket) => {
-    let roomId = '';
-    console.log('chat 네임스페이스에 접속');
-    
-    socket.on('joinConnect', async ({userName}) => {
-      const req = socket.request;
-      const { headers: { referer }} = req;
-      const room = referer.split('/')[referer.split('/').length - 1].replace(/\?.+/, '');
+    const { request } = socket;
 
-      if (room === 'lobby') {
-        roomId = await getLobby();
-      } else {
-        roomId = room
-      }
-
-      socket.join(roomId);
-
-      // 자신 포함 전부
-      chat.to(roomId).emit('join', {
-        message: `${userName}님이 입장하셨습니다.`,
-        roomId,
-        userName: 'system',
-      })
-    })
-
-    socket.on('sendMessage', async ({message, userName, roomId}) => {
-      if (!roomId) {
-        return;
-      }
-
-      try {
-        const chatLog = new Chat({
-          room: roomId,
-          user: userName,
-          chat: message
-        });
-
-        await chatLog.save();
-
-        chat.to(roomId).emit('getMessage', {
-          message,
-          userName
-        })  
-      } catch(err) {
-       // 
-      }
-
-    });
-
-    socket.on('disconnect', () => {
-      console.log('chat 네임스페이스 접속 해제');
-      socket.leave(roomId);
-    });
+    console.log(request);
   });
 };
 
-export default socket;
+export default socketIo;
