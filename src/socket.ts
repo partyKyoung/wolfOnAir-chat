@@ -16,14 +16,20 @@ function socketIo(server: HttpServer, app: Koa) {
   const room = io.of('/room');
   const lobby = io.of('/lobby');
 
-  lobby.on('connection', () => {});
+  lobby.on('connect', () => {});
 
-  room.on('connection', () => {});
+  room.on('connect', () => {});
 
-  chat.on('connection', (socket) => {
-    const { request } = socket;
+  chat.on('connect', (socket) => {
+    const { handshake: { query } } = socket;
 
-    console.log(request);
+    socket.join(query.room);
+
+    chat.to(query.room).emit('join', {
+      type: 'system',
+      userName: 'system',
+      message: `${query.userName}님이 입장하셨습니다.`
+    })
   });
 };
 
