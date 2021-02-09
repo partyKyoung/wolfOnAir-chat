@@ -3,15 +3,13 @@ import { model, Document, Model, Schema } from "mongoose";
 import { ChatInterface } from '../interface/chat';
 
 interface ChatDocument extends ChatInterface, Document {
-  _id: string;
-}
 
-const { Types: { ObjectId } } = Schema;
+};
+
 const ChatSchema = new Schema({
-  roomId: {
-    type: ObjectId,
-    required: true,
-    ref: 'Room'
+  room: {
+    type: String,
+    required: true
   },
   user: String,
   message: String,
